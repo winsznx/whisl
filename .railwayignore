@@ -1,0 +1,12 @@
+node_modules
+**/node_modules
+.next
+web/.next
+**/.whisl-data
+internal
+contracts/out
+contracts/cache
+contracts/broadcast
+contracts/lib
+*.gguf
+.git

@@ -1,0 +1,31 @@
+# Internal spec + build prompt — never in the public repo (PRD §11)
+internal/
+
+# Node
+node_modules/
+
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+out/
+cache/
+
+# Env / secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Local instance data (per-participant Pears room store)
+**/.whisl-data/
+
+# Next.js
+**/.next/
+
+# Model weights
+*.gguf
+
+# OS / editor
+.DS_Store
+Thumbs.db

@@ -1,0 +1,8 @@
+{
+  "name": "whisl",
+  "private": true,
+  "description": "Whisl monorepo — deploy target is web/ (Next.js). room/ loads at runtime.",
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
