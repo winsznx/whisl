@@ -13,12 +13,14 @@ import {
   claimAction,
 } from "@/app/dashboard/actions";
 import type { ParseResult } from "@/lib/server/qvac";
+import { friendlyError } from "@/lib/friendly";
 
 type RunFn = (label: string, fn: () => Promise<string | void>) => Promise<void>;
 
 type Props = {
   potId: string;
   state: number;
+  ready: boolean;
   isConfirmer: boolean;
   isSplit: boolean;
   condition: string;
@@ -44,13 +46,26 @@ export function PotActions(props: Props) {
       if (typeof msg === "string") setNote(msg);
       router.refresh();
     } catch (e) {
-      setErr(e instanceof Error ? e.message : "Something went wrong");
+      setErr(friendlyError(e));
     } finally {
       setBusy(null);
     }
   }
 
   const s = props.state;
+
+  if (!props.ready) {
+    return (
+      <div className="card-inverted p-8 mt-6">
+        <div className="font-display text-3xl">Read only here</div>
+        <p className="text-smoke mt-2">
+          This is the public Whisl site. Funding, confirming, disputing, and claiming happen on your
+          own local node, signed by your own wallet.
+        </p>
+        <a href="https://github.com/winsznx/whisl" target="_blank" rel="noreferrer" className="btn btn-mint mt-5">Run your own node</a>
+      </div>
+    );
+  }
 
   return (
     <div className="card-inverted p-8 mt-6">

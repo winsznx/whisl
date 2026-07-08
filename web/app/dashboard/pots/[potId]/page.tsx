@@ -28,7 +28,8 @@ export default async function PotPage({ params }: Params) {
   } catch {
     // room not available on this instance
   }
-  if (walletConfigured()) me = await walletAddress().catch(() => "");
+  const ready = walletConfigured();
+  if (ready) me = await walletAddress().catch(() => "");
 
   const isConfirmer = me !== "" && me.toLowerCase() === pot.requiredConfirmer.toLowerCase();
   const isSplit = pot.payoutRecipient === ADDR_ZERO;
@@ -51,6 +52,7 @@ export default async function PotPage({ params }: Params) {
       <PotActions
         potId={potId}
         state={pot.state}
+        ready={ready}
         isConfirmer={isConfirmer}
         isSplit={isSplit}
         condition={meta?.condition ?? ""}
