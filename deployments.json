@@ -1,0 +1,9 @@
+{
+  "sepolia": {
+    "chainId": 11155111,
+    "rpc": "https://ethereum-sepolia-rpc.publicnode.com",
+    "whislEscrow": "0xe93Eeb667bE8BBbB71993ca141B70F9CFF32b027",
+    "usdt": "0xd077a400968890eacc75cdc901f0356c943e4fdb",
+    "deployTx": "0xb662f47b16aaa7db6a24d6b7d3bd4b67077e319b48680d041f7588bbe2748f68"
+  }
+}
