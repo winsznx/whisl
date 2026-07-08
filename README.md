@@ -36,24 +36,44 @@ payout. Built for the Tether Developers Cup on three load-bearing tracks:
 A full `createPot → deposit → confirmResolution → claim` round-trip has been executed on-chain — tx
 hashes are in [the build log](docs/build-log.md).
 
-## Run it
+## Run it locally
+
+Whisl is local-first: you run your own node. Requirements: Node 20.9+ and (for the contract tests) Foundry.
 
 ```bash
-# Escrow: 29 tests + Slither gate
-cd contracts && forge test && slither . --filter-paths "node_modules|lib|test"
-
-# Pears room: conflict rules + two-peer replication (9 tests), and a real Hyperswarm smoke
-cd room && npm install && node --test && node script/swarm-smoke.mjs
-
-# App: QVAC capture, WDK deposit, GoalDrop flow, tournament (needs contracts/.env for on-chain runs)
-cd app && npm install && node --test
-node script/qvac-capture.mjs        # local Qwen3-VL-2B parse of a scoreboard frame
-node script/wdk-deposit.mjs         # WDK approve + deposit on Sepolia
-node script/goaldrop-flow.mjs       # submit→confirm→dispute→resolve→claim, room-mirrored
-node script/qvac-delegated.mjs      # provider/consumer delegated inference + fallback
+git clone https://github.com/winsznx/whisl && cd whisl
+npm run setup          # installs contracts, room, app, and web
 ```
 
-On-chain scripts read a gitignored `contracts/.env` (`SEPOLIA_RPC`, `DEPLOYER_PK`). Never commit keys.
+Point the node at your own wallet. It is self-custodial and stays on your machine:
+
+```bash
+cp web/.env.example web/.env.local
+# set WHISL_WALLET_SEED to your own BIP39 seed for a Sepolia wallet
+```
+
+Fund that wallet on Sepolia:
+- Test USD-T: https://dashboard.pimlico.io/test-erc20-faucet
+- Sepolia ETH for gas: any Sepolia faucet
+
+Run the dashboard:
+
+```bash
+npm run dev            # http://localhost:3000
+```
+
+Tests:
+
+```bash
+cd contracts && forge test    # 29 escrow tests (add: slither . --filter-paths "node_modules|lib|test")
+npm run test:room             # 9 room tests: conflict rules + two-peer sync
+npm run test:web              # frontend logic tests
+```
+
+**On-device AI (optional).** QVAC capture uses `@qvac/sdk`, installed as an optional dependency; it
+downloads the Qwen3-VL-2B model on first use. If it is not present, capture falls back to manual
+entry and everything else works. The escrow and deploy scripts under `app/` read a gitignored
+`contracts/.env` (`SEPOLIA_RPC`, `DEPLOYER_PK`). Never commit keys.
 
 ## Copy rules
 
