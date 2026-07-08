@@ -1,0 +1,15 @@
+{
+  "name": "whisl-app",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Whisl WDK wallet + escrow integration (deposit/claim signing)",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@tetherto/wdk-wallet-evm": "^1.0.0-beta.13",
+    "ethers": "^6.17.0",
+    "sharp": "^0.35.3"
+  }
+}
